@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import Config from './Config';
 
 const ROWS_PER_PAGE = 100;
 
@@ -65,10 +66,9 @@ function App() {
   const [debouncedSearchText, setDebouncedSearchText] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [page, setPage] = useState(1);
-  const JSON_DATA_PATH = '/data/data.json';
 
   useEffect(() => {
-    fetch(JSON_DATA_PATH)
+    fetch(Config.jsonDataPath)
       .then(response => response.json())
       .then(data => {
         setTableData(data);

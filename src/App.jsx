@@ -32,6 +32,31 @@ function debounce(func, wait) {
   };
 }
 
+const formatters = {
+  sizeFormat,
+  dateFormat
+}
+
+function sizeFormat(size) {
+  if (size < 1024) {
+    return size + " B";
+  } else if (size < Math.pow(1024, 2)) {
+    return (size / Math.pow(1024, 1)).toFixed(2) + " KB";
+  } else if (size < Math.pow(1024, 3)) {
+    return (size / Math.pow(1024, 2)).toFixed(2) + " MB";
+  } else {
+    return (size / Math.pow(1024, 3)).toFixed(2) + " GB";
+  }
+}
+
+function dateFormat(ts) {
+  const date = new Date(Number(ts));
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
 function App() {
   const [tableData, setTableData] = useState(null);
   const [orderBy, setOrderBy] = useState('');
@@ -286,14 +311,13 @@ function App() {
                       key={`${rowIndex}-${header.id}`}
                       sx={{
                         color: '#664400',
-                        userSelect: 'none',
                         '&:hover': {
                           backgroundColor: '#ffdbbd'
                         }
                       }}
                       onDoubleClick={() => handleCellDoubleClick(row, header)}
                     >
-                      {row[header.id]}
+                      {header.format ? formatters[header.format](row[header.id]) : row[header.id]}
                     </TableCell>
                   ))}
                 </TableRow>

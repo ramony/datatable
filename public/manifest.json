@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Data Table Viewer",
+  "version": "1.0.0",
+  "description": "A Chrome extension to view JSON data in table format",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Data Table Viewer"
+  },
+  "permissions": [
+    "storage"
+  ]
+}

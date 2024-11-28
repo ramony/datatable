@@ -19,7 +19,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import Config from './Config';
 
-const ROWS_PER_PAGE = 100;
+const ROWS_PER_PAGE = 50;
 
 function debounce(func, wait) {
   let timeout;
@@ -71,6 +71,9 @@ function App() {
     fetch(Config.jsonDataPath)
       .then(response => response.json())
       .then(data => {
+        if (data.exclude) {
+          data.data = data.data.filter(row => !data.exclude.some(ex => row[ex.field].includes(ex.keyword)));
+        }
         setTableData(data);
         if (data.headers && data.headers.length > 0) {
           setOrderBy(data.headers[data.headers.length - 1].id);
@@ -312,7 +315,7 @@ function App() {
                       sx={{
                         backgroundColor: row['bg-' + header.id] ? 'gray' : '',
                         '&:hover': {
-                          backgroundColor: '#ffdbbd'
+                          backgroundColor: row['bg-' + header.id] ? 'gray' : '#ffdbbd'
                         }
                       }}
                       onDoubleClick={() => handleCellDoubleClick(row, header)}

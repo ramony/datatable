@@ -1,2 +1,6 @@
-const jsonDataPath = '/data/data.json';
-export default { jsonDataPath };
+const dataPath = {
+  json: '/data/data.json',
+  header: '/data/data.header.json'
+}
+
+export default { dataPath };

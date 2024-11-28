@@ -68,17 +68,19 @@ function App() {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetch(Config.jsonDataPath)
-      .then(response => response.json())
-      .then(data => {
-        if (data.exclude) {
-          data.data = data.data.filter(row => !data.exclude.some(ex => row[ex.field].includes(ex.keyword)));
-        }
-        setTableData(data);
-        if (data.headers && data.headers.length > 0) {
-          setOrderBy(data.headers[data.headers.length - 1].id);
-        }
-      })
+    Promise.all([
+      fetch(Config.dataPath.json).then(response => response.json()),
+      fetch(Config.dataPath.header).then(response => response.json())
+    ]).then(([data, header]) => {
+      data = { ...header, data }
+      if (data.exclude) {
+        data.data = data.data.filter(row => !data.exclude.some(ex => row[ex.field].includes(ex.keyword)));
+      }
+      setTableData(data);
+      if (data.headers && data.headers.length > 0) {
+        setOrderBy(data.headers[data.headers.length - 1].id);
+      }
+    })
       .catch(error => {
         console.error('Error loading data:', error);
         let data = { headers: [], data: [] };

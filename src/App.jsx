@@ -90,6 +90,7 @@ function App() {
 
   const debouncedSetSearch = useCallback(
     debounce((value) => {
+      setSearchText(value);
       setDebouncedSearchText(value);
       setPage(1); // 重置页码
     }, 1500),
@@ -98,7 +99,6 @@ function App() {
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
-    //setSearchText(value);
     debouncedSetSearch(value);
   };
 
@@ -209,6 +209,7 @@ function App() {
         size="small"
         variant="outlined"
         placeholder="搜索..."
+        defaultValue={searchText}
         onChange={handleSearchChange}
         sx={{
           width: '180px',

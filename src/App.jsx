@@ -87,13 +87,13 @@ function App() {
     debounce((value) => {
       setDebouncedSearchText(value);
       setPage(1); // 重置页码
-    }, 300),
+    }, 1500),
     []
   );
 
   const handleSearchChange = (event) => {
     const value = event.target.value;
-    setSearchText(value);
+    //setSearchText(value);
     debouncedSetSearch(value);
   };
 
@@ -104,8 +104,8 @@ function App() {
   };
 
   const handleRequestSort = (property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const desc = orderBy === property && order === 'desc';
+    setOrder(desc ? 'asc' : 'desc');
     setOrderBy(property);
   };
 
@@ -115,6 +115,7 @@ function App() {
     }
     const text = header.copyFields.map(field => row[field]).join('\\');
     navigator.clipboard.writeText(text).then(() => {
+      row['bg-' + header.id] = true
       setSnackbarOpen(true);
     });
   };
@@ -203,7 +204,6 @@ function App() {
         size="small"
         variant="outlined"
         placeholder="搜索..."
-        value={searchText}
         onChange={handleSearchChange}
         sx={{
           width: '180px',
@@ -238,7 +238,7 @@ function App() {
 
   return (
     <Box sx={{
-      width: '100vw',
+      width: '98vw',
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
@@ -310,7 +310,7 @@ function App() {
                     <TableCell
                       key={`${rowIndex}-${header.id}`}
                       sx={{
-                        color: '#664400',
+                        backgroundColor: row['bg-' + header.id] ? 'gray' : '',
                         '&:hover': {
                           backgroundColor: '#ffdbbd'
                         }

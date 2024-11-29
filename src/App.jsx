@@ -283,7 +283,7 @@ function App() {
                 }
               }}>
                 {tableData.headers.map((header) => (
-                  <TableCell key={header.id}>
+                  <TableCell key={header.id} sx={{ width: header.width }}>
                     <Box
                       sx={{
                         display: 'flex',
